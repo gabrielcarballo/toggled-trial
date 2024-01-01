@@ -46,7 +46,7 @@ export default function LedManagement() {
                 <Polygon points="0,10 100,10 70,90 30,90" />
               </ClipPath>
             </Defs>
-            <AnimatedCircle />
+            <Circle cx="50" cy="50" r="50" fill="url(#grad)" clipPath="url(#clip)" />
           </Svg>
         </Animated.View>
 
