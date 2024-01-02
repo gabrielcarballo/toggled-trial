@@ -40,7 +40,7 @@ export default function LedManagement() {
         </ImageBackground>
       </View>
 
-      <Text style={styles.title}>Lighting Control</Text>
+      <Text style={styles.title}>Toggled Lighting Control</Text>
       <View style={styles.controlContainer}>
         <Text style={styles.textStyle}>Power and Dimming</Text>
         <View style={styles.powerControl}>
