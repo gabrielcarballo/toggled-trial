@@ -1,35 +1,32 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { View, Text, Image, StyleSheet, Pressable, ImageBackground } from 'react-native';
 import Slider from '@react-native-community/slider'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
+import { handleLightingTemperature, Temperature } from '../../utils/handleLightingTemperature'
 
 
 const office = require('../../assets/office.jpg');
 const led = require('../../assets/horizontal-led-f.png');
 const light = require('../../assets/lighted-bg.png');
 
-const temperatures = {
-  '4000K': '#F9F6EE',
-  '5000K': '#FAF9F6',
-  '6500K': '#FFFFFF',
-};
+
 
 export default function LedManagement() {
-  const [dimLight, setDimLight] = useState(0);
-  const [temperature, setTemperature] = useState('4000K');
+  const [lightIntensity, setlightIntensity] = useState(0);
+  const [temperature, setTemperature] = useState(Temperature.K4);
 
-  const handleDimLightChange = (value: number) => {
-    setDimLight(value);
-  };
+  const updatelightIntensity = useCallback((value: number) => {
+    setlightIntensity(value);
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='dark' />
       <View style={styles.ledContainer}>
-        <ImageBackground source={office} imageStyle={{ opacity: dimLight / 2550 }} style={{ height: '100%', width: '100%' }}>
-          <Image style={styles.led} source={led}/>
-          <Image source={light} style={[styles.lightBackground, { opacity: dimLight / 255 }]} />
+        <ImageBackground source={office} imageStyle={{ opacity: lightIntensity / 2550 }} style={styles.background}>
+          <Image style={styles.led} source={led} />
+          <Image source={light} style={[styles.lightBackground, { opacity: (lightIntensity / 255) - handleLightingTemperature(temperature) }]} />
         </ImageBackground>
       </View>
       <Text style={styles.title}>Lighting Control</Text>
@@ -41,26 +38,26 @@ export default function LedManagement() {
           maximumValue={255}
           minimumTrackTintColor="#000000"
           maximumTrackTintColor="#FFC300"
-          onValueChange={handleDimLightChange}
-          value={dimLight}
+          onValueChange={updatelightIntensity}
+          value={lightIntensity}
         />
         <Text>Temperature</Text>
         <View style={styles.temperatureContainer}>
-          <View style={[styles.temperatureCard, temperature === '4000K' ? styles.selectedTemperatureCard : null]}>
-            <Pressable onPress={() => setTemperature('4000K')}>
+          <Pressable onPress={() => setTemperature(Temperature.K4)}>
+            <View style={[styles.temperatureCard, temperature === Temperature.K4 ? styles.selectedTemperatureCard : null]}>
               <Text >4000K</Text>
-            </Pressable>
-          </View>
-          <View style={[styles.temperatureCard, temperature === '5000K' ? styles.selectedTemperatureCard : null]}>
-            <Pressable onPress={() => setTemperature('5000K')}>
+            </View>
+          </Pressable>
+          <Pressable onPress={() => setTemperature(Temperature.K5)}>
+            <View style={[styles.temperatureCard, temperature === Temperature.K5 ? styles.selectedTemperatureCard : null]}>
               <Text >5000K</Text>
-            </Pressable>
-          </View>
-          <View style={[styles.temperatureCard, temperature === '6500K' ? styles.selectedTemperatureCard : null]}>
-            <Pressable onPress={() => setTemperature('6500K')}>
+            </View>
+          </Pressable>
+          <Pressable onPress={() => setTemperature(Temperature.K65)}>
+            <View style={[styles.temperatureCard, temperature === Temperature.K65 ? styles.selectedTemperatureCard : null]}>
               <Text >6500K</Text>
-            </Pressable>
-          </View>
+            </View>
+          </Pressable>
         </View>
       </View>
     </SafeAreaView>
@@ -86,10 +83,6 @@ const styles = StyleSheet.create({
   led: {
     width: 350,
     height: 120,
-  },
-  dimLightContainer: {
-    marginTop: 100,
-    position: 'absolute',
   },
   sliderContainer: {
     alignItems: 'center',
@@ -127,5 +120,9 @@ const styles = StyleSheet.create({
     bottom: -6,
     zIndex: -1,
 
+  },
+  background: {
+    width: '100%',
+    height: '100%',
   },
 });
