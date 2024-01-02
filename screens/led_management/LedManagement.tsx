@@ -1,10 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { View, Text, Image, StyleSheet, Pressable, ImageBackground } from 'react-native';
-import Slider from '@react-native-community/slider'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { handleLightingTemperature, Temperature } from '../../utils/handleLightingTemperature'
-import { Slider as NewSlider} from '@rneui/themed'
+import { Slider } from '@rneui/themed'
 
 
 const office = require('../../assets/office.jpg');
@@ -16,10 +15,17 @@ const light = require('../../assets/lighted-bg.png');
 export default function LedManagement() {
   const [lightIntensity, setlightIntensity] = useState<number>(0);
   const [temperature, setTemperature] = useState<Temperature>(Temperature.K4);
+  const [isLightOn, setIsLightOn] = useState<boolean>(false);
 
   const updatelightIntensity = useCallback((value: number) => {
     setlightIntensity(value);
+    setIsLightOn(true);
   }, []);
+
+  const handleLightOff = useCallback(() => {
+    setIsLightOn(false);
+    setlightIntensity(0);
+  }, [])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -34,45 +40,48 @@ export default function LedManagement() {
 
       <Text style={styles.title}>Lighting Control</Text>
       <View style={styles.controlContainer}>
+        <Text style={styles.textStyle}>Power and Dimming</Text>
+        <View style={styles.powerControl}>
+          <Pressable onPress={() => updatelightIntensity(lightIntensity)}>
+            <View style={[styles.powerControlCard, isLightOn === true ? styles.selectedCard : null]}>
+              <Text style={isLightOn ? styles.selectedTitle : styles.temperatureTitle}>ON</Text>
+            </View>
+          </Pressable>
+          <Pressable onPress={() => handleLightOff()}>
+            <View style={[styles.powerControlCard, isLightOn === false ? styles.selectedCard : null]}>
+              <Text style={isLightOn === false ? styles.selectedTitle : styles.temperatureTitle}>OFF</Text>
+            </View>
+          </Pressable>
+        </View>
         <Text style={styles.textStyle}>Dim Light</Text>
-        <Slider
-          style={{ width: '80%', height: 40, alignSelf: 'flex-start' }}
-          minimumValue={0}
-          maximumValue={255}
-          minimumTrackTintColor="#3A7DA3"
-          maximumTrackTintColor="#A6A6A6"
-          onValueChange={updatelightIntensity}
-          value={lightIntensity}
-          thumbTintColor='#3A7DA3'
-        />
-        <NewSlider
-          style={{ width: '80%', height: 40, alignSelf: 'flex-start' }}
-          minimumValue={0}
-          maximumValue={255}
-          minimumTrackTintColor="#3A7DA3"
-          maximumTrackTintColor="#A6A6A6"
-          onValueChange={updatelightIntensity}
-          value={lightIntensity}
-          thumbTintColor='#3A7DA3'
-          trackStyle={{ width: '100%', height: '50%', borderRadius: 0 }}
-          thumbStyle={{ width: '5%', height: '70%', borderRadius: 0, backgroundColor: 'white', borderColor: '#3A7DA3', borderWidth: 1 }}
-        />
+          <Slider
+            style={{ width: '80%', height: 40, alignSelf: 'flex-start' }}
+            minimumValue={0}
+            maximumValue={255}
+            minimumTrackTintColor="#3A7DA3"
+            maximumTrackTintColor="#EBE7E7"
+            onValueChange={isLightOn ? updatelightIntensity : handleLightOff}
+            value={lightIntensity}
+            thumbTintColor='#3A7DA3'
+            trackStyle={{ width: '100%', height: '50%', borderRadius: 0 }}
+            thumbStyle={{ width: '5%', height: '70%', borderRadius: 0, backgroundColor: 'white', borderColor: '#3A7DA3', borderWidth: 1 }}
+          />
         <Text style={styles.textStyle}>Temperature</Text>
 
         <View style={styles.temperatureContainer}>
           <Pressable onPress={() => setTemperature(Temperature.K4)}>
-            <View style={[styles.temperatureCard, temperature === Temperature.K4 ? styles.selectedTemperatureCard : null]}>
-              <Text style={temperature === Temperature.K4 ? styles.selectedTemperatureTile : styles.temperatureTitle}>4000K</Text>
+            <View style={[styles.temperatureCard, temperature === Temperature.K4 ? styles.selectedCard : null]}>
+              <Text style={temperature === Temperature.K4 ? styles.selectedTitle : styles.temperatureTitle}>4000K</Text>
             </View>
           </Pressable>
           <Pressable onPress={() => setTemperature(Temperature.K5)}>
-            <View style={[styles.temperatureCard, temperature === Temperature.K5 ? styles.selectedTemperatureCard : null]}>
-              <Text style={temperature === Temperature.K5 ? styles.selectedTemperatureTile : styles.temperatureTitle}>5000K</Text>
+            <View style={[styles.temperatureCard, temperature === Temperature.K5 ? styles.selectedCard : null]}>
+              <Text style={temperature === Temperature.K5 ? styles.selectedTitle : styles.temperatureTitle}>5000K</Text>
             </View>
           </Pressable>
           <Pressable onPress={() => setTemperature(Temperature.K65)}>
-            <View style={[styles.temperatureCard, temperature === Temperature.K65 ? styles.selectedTemperatureCard : null]}>
-              <Text style={temperature === Temperature.K65 ? styles.selectedTemperatureTile : styles.temperatureTitle}>6500K</Text>
+            <View style={[styles.temperatureCard, temperature === Temperature.K65 ? styles.selectedCard : null]}>
+              <Text style={temperature === Temperature.K65 ? styles.selectedTitle : styles.temperatureTitle}>6500K</Text>
             </View>
           </Pressable>
         </View>
@@ -109,14 +118,14 @@ const styles = StyleSheet.create({
   controlContainer: {
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    marginTop: 20,
+    marginTop: '3%',
     marginLeft: 30,
-    
+    width: '100%',
   },
   temperatureContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '72%',
+    width: '80%',
     alignItems: 'flex-start',
     borderColor: '#FFFFFF',
     borderWidth: 1,
@@ -125,19 +134,19 @@ const styles = StyleSheet.create({
   },
   temperatureCard: {
     height: 40,
-    width: 80,
+    width: 85,
     alignItems: 'center',
     justifyContent: 'center',
     borderColor: '#3A7DA3',
     borderWidth: 1,
   },
-  selectedTemperatureCard: {
+  selectedCard: {
     backgroundColor: '#3A7DA3',
   },
   temperatureTitle: {
     color: '#3A7DA3',
   },
-  selectedTemperatureTile: {
+  selectedTitle: {
     color: '#FFFFFF',
   },
   lightBackground: {
@@ -157,5 +166,24 @@ const styles = StyleSheet.create({
     color: '#A6A6A6',
     fontSize: 14,
 
+  },
+  powerControl: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    width: '80%',
+    height: '15%',
+    alignItems: 'flex-start',
+    borderColor: '#FFFFFF',
+    borderWidth: 1,
+    marginTop: '3%',
+    marginBottom: '3%',
+  },
+  powerControlCard: {
+    height: 40,
+    width: 85,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: '#3A7DA3',
+    borderWidth: 1,
   },
 });
