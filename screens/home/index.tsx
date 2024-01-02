@@ -2,14 +2,13 @@ import { View, Text, ImageBackground, TouchableWithoutFeedback, StyleSheet } fro
 import { useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-
-const HomeScreen = () => {
+export default function HomeScreen ({navigation}) {
   const [togglePrototype, setTogglePrototype] = useState(false)
   return (
     <>
       <ImageBackground source={require('../../assets/Toggled-homescreen.jpeg')} style={{ width: '100%', height: '100%' }}>
         {
-          togglePrototype && <TouchableWithoutFeedback onPress={() => console.log('pressed')}>
+          togglePrototype && <TouchableWithoutFeedback onPress={() => navigation.navigate('led_management', {})}>
             <Text style={styles.buttonText}>Don't know Toggle iQ yet? Try us!</Text>
           </TouchableWithoutFeedback>
         }
@@ -57,6 +56,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   }
 })
-
-
-export default HomeScreen;
