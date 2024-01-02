@@ -5,17 +5,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import Animated, { useSharedValue } from 'react-native-reanimated';
 import Svg, { Defs, ClipPath, Polygon, RadialGradient, Stop, Circle } from 'react-native-svg';
-import AnimatedCircle from './components/AnimatedCircle';
-
 
 
 export default function LedManagement() {
-  const [intensity, setIntensity] = useState(0);
+  const [dimLight, setDimLight] = useState(0);
   const [temperature, setTemperature] = useState(0);
 
-  const handleIntensityChange = (value: number) => {
-    console.log(value);
-    setIntensity(value);
+  const handleDimLightChange = (value: number) => {
+    setDimLight(value);
   };
 
   const handleTemperatureChange = (value: number) => {
@@ -23,36 +20,59 @@ export default function LedManagement() {
   };
 
   const lightStyle = {
-    backgroundColor: `rgba(255, 255, 255, ${intensity / 100})`,
+    backgroundColor: `rgba(255, 255, 255, ${dimLight / 100})`,
     filter: `brightness(${temperature}%)`,
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style='light' />
-      <Animated.View style={styles.ledContainer}>
+      <StatusBar style='dark' />
+      <View style={styles.ledContainer}>
         <Image
           style={styles.led}
           source={require('../../assets/horizontal-led-f.png')}
         />
-        <Animated.View >
-          <Svg height="150" width="350" viewBox="0 0 100 100">
+        <Animated.View style={styles.dimLightContainer}>
+          <Svg height="300" width="350" viewBox="10 40 120 110">
             <Defs>
-              <RadialGradient id="grad" cx="70%" cy="70%" rx="70%" ry="70%" fx="70%" fy="70%" gradientUnits="userSpaceOnUse">
-                <Stop offset="0%" stopColor="#fff" stopOpacity={intensity / 100} />
-                <Stop offset="100%" stopColor="#fff" stopOpacity={0} />
+              <RadialGradient id="grad" cx="35%" cy="50%" rx="50%" ry="50%" fx="50%" fy="50%" gradientUnits="userSpaceOnUse">
+                <Stop offset="0%" stopColor="#ffffff" stopOpacity={dimLight / 100} />
+
               </RadialGradient>
               <ClipPath id="clip">
-                <Polygon points="0,10 100,10 70,90 30,90" />
+                <Polygon points="20,10 80,10 100,90 0,90" />
               </ClipPath>
             </Defs>
-            <Circle cx="50" cy="50" r="50" fill="url(#grad)" clipPath="url(#clip)" />
+            <Circle cx="50" cy="50" r="120" fill="url(#grad)" clipPath="url(#clip)" />
           </Svg>
         </Animated.View>
+      </View>
 
-      </Animated.View>
       <View style={styles.sliderContainer}>
-        <Text>Intensity</Text>
+        <Text>Dim Light</Text>
+        <Slider
+          style={{ width: '80%', height: 40 }}
+          minimumValue={0}
+          maximumValue={100}
+          minimumTrackTintColor="#FFFFFF"
+          maximumTrackTintColor="#000000"
+          onValueChange={handleDimLightChange}
+          value={dimLight}
+        >
+        </Slider>
+        <Text>Temperature</Text>
+        <Slider
+          style={{ width: '80%', height: 40 }}
+          minimumValue={0}
+          maximumValue={255}
+          minimumTrackTintColor="#FFFFFF"
+          maximumTrackTintColor="#000000"
+          onValueChange={handleTemperatureChange}
+          value={temperature}
+          vertical={true}
+        >
+        </Slider>
+        {/* <Text>Intensity</Text>
         <Slider
           style={{ width: '80%', height: 40 }}
           minimumValue={0}
@@ -62,29 +82,7 @@ export default function LedManagement() {
           onValueChange={handleIntensityChange}
           value={intensity}
         >
-        </Slider>
-        <Text>Intensity</Text>
-        <Slider
-          style={{ width: '80%', height: 40 }}
-          minimumValue={0}
-          maximumValue={255}
-          minimumTrackTintColor="#FFFFFF"
-          maximumTrackTintColor="#000000"
-          onValueChange={handleIntensityChange}
-          value={intensity}
-        >
-        </Slider>
-        <Text>Intensity</Text>
-        <Slider
-          style={{ width: '80%', height: 40 }}
-          minimumValue={0}
-          maximumValue={255}
-          minimumTrackTintColor="#FFFFFF"
-          maximumTrackTintColor="#000000"
-          onValueChange={handleIntensityChange}
-          value={intensity}
-        >
-        </Slider>
+        </Slider> */}
       </View>
     </SafeAreaView>
   );
@@ -93,38 +91,26 @@ export default function LedManagement() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#222222',
+    backgroundColor: '#40B8D9',
   },
   ledContainer: {
     height: '40%',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-  },
-  trapezium: {
-    width: 350,
-    height: 150,
-    borderBottomColor: 'transparent',
-    backgroundColor: 'white',
-    transform: [{ skewX: '-30deg' }],
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    zIndex: 1,
+    backgroundColor : '#222222',
   },
   led: {
     width: 350,
     height: 150,
+    zIndex: 2,
   },
   dimLightContainer: {
-    marginTop: -150,
-    marginLeft: 100,
-    width: 100,
-    height: 100,
+    marginTop: 100,
+    position: 'absolute',
   },
   sliderContainer: {
-
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#40B8D9',
   },
 });

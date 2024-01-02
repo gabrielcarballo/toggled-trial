@@ -4,7 +4,7 @@ import Animated from 'react-native-reanimated';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-export default function Trapezium() {
+export default function TrapeziumLighting() {
   return (
     <Svg height="50%" width="50%" viewBox="0 0 100 100">
       <Defs>
