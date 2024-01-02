@@ -2,7 +2,7 @@ import { View, Text, ImageBackground, TouchableWithoutFeedback, StyleSheet } fro
 import { useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const HomeScreen = ({navigation}) => {
+export default function HomeScreen ({navigation}) {
   const [togglePrototype, setTogglePrototype] = useState(false)
   return (
     <>
@@ -56,6 +56,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   }
 })
-
-
-export default HomeScreen;
