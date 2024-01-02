@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     position: 'absolute',
-
     borderRadius: 30,
     marginBottom: 180,
     bottom: 0,
