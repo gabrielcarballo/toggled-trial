@@ -17,12 +17,14 @@ export default function LedManagement() {
   const [temperature, setTemperature] = useState<Temperature>(Temperature.K4);
   const [isLightOn, setIsLightOn] = useState<boolean>(false);
 
-  const updatelightIntensity = useCallback((value: number) => {
+  const updatelightIntensity = useCallback((value: number): void => {
+    console.log(lightIntensity);
     setlightIntensity(value);
     setIsLightOn(true);
   }, []);
 
-  const handleLightOff = useCallback(() => {
+  const handleLightOff = useCallback((): void => {
+    console.log(lightIntensity);
     setIsLightOn(false);
     setlightIntensity(0);
   }, [])
@@ -42,7 +44,7 @@ export default function LedManagement() {
       <View style={styles.controlContainer}>
         <Text style={styles.textStyle}>Power and Dimming</Text>
         <View style={styles.powerControl}>
-          <Pressable onPress={() => updatelightIntensity(lightIntensity)}>
+          <Pressable onPress={() => isLightOn ? null : updatelightIntensity(255)}>
             <View style={[styles.powerControlCard, isLightOn === true ? styles.selectedCard : null]}>
               <Text style={isLightOn ? styles.selectedTitle : styles.temperatureTitle}>ON</Text>
             </View>
@@ -60,7 +62,7 @@ export default function LedManagement() {
             maximumValue={255}
             minimumTrackTintColor="#3A7DA3"
             maximumTrackTintColor="#EBE7E7"
-            onValueChange={isLightOn ? updatelightIntensity : handleLightOff}
+            onValueChange={updatelightIntensity}
             value={lightIntensity}
             thumbTintColor='#3A7DA3'
             trackStyle={{ width: '100%', height: '50%', borderRadius: 0 }}
