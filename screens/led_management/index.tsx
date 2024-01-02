@@ -36,7 +36,31 @@ export default function LedManagement() {
           <Svg height="300" width="350" viewBox="10 40 120 110">
             <Defs>
               <RadialGradient id="grad" cx="35%" cy="50%" rx="50%" ry="50%" fx="50%" fy="50%" gradientUnits="userSpaceOnUse">
-                <Stop offset="0%" stopColor="#ffffff" stopOpacity={dimLight / 100} />
+              <Stop
+                offset='100%'
+                stopColor={'#fff'}
+                stopOpacity={dimLight > 80 ? dimLight/100 : 0}
+              />
+              <Stop
+                offset='80%'
+                stopColor={'#fff'}
+                stopOpacity={dimLight > 60 ? dimLight/100 : 0}
+              />
+              <Stop
+                offset='60%'
+                stopColor={'#fff'}
+                stopOpacity={dimLight > 40 ? dimLight/100 : 0}
+              />
+              <Stop
+                offset='40%'
+                stopColor={'#fff'}
+                stopOpacity={dimLight > 20 ? dimLight/100 : 0}
+              />
+              <Stop
+                offset='10%'
+                stopColor={'#fff'}
+                stopOpacity={dimLight > 0 ? dimLight/100 : 0}
+              />
 
               </RadialGradient>
               <ClipPath id="clip">
