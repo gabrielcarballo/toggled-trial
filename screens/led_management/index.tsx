@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image, StyleSheet, Pressable, ImageBackground } from 'react-native';
+import { View, Text, Image, StyleSheet, Pressable, ImageBackground } from 'react-native';
 import Slider from '@react-native-community/slider'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
-import Animated, { useSharedValue } from 'react-native-reanimated';
-import Svg, { Defs, ClipPath, Polygon, RadialGradient, Stop, Circle } from 'react-native-svg';
 
 
 const office = require('../../assets/office.jpg');
@@ -25,34 +23,22 @@ export default function LedManagement() {
     setDimLight(value);
   };
 
-  const lightStyle = {
-    backgroundColor: `rgba(255, 255, 255, ${dimLight / 100})`,
-    filter: `brightness(${temperature}%)`,
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style='dark' />
       <View style={styles.ledContainer}>
-        <ImageBackground source={office} imageStyle={{ opacity: dimLight / 1000 }} style={{ height: '100%', width: '100%' }}>
-          <Image
-            style={styles.led}
-            source={led}
-          />
-          
-          <Image source={light} style={[styles.lightBackground, { opacity: dimLight / 100 } ]} />
-         
-
-
+        <ImageBackground source={office} imageStyle={{ opacity: dimLight / 2550 }} style={{ height: '100%', width: '100%' }}>
+          <Image style={styles.led} source={led}/>
+          <Image source={light} style={[styles.lightBackground, { opacity: dimLight / 255 }]} />
         </ImageBackground>
       </View>
-
+      <Text style={styles.title}>Lighting Control</Text>
       <View style={styles.sliderContainer}>
         <Text>Dim Light</Text>
         <Slider
           style={{ width: '80%', height: 40 }}
           minimumValue={0}
-          maximumValue={100}
+          maximumValue={255}
           minimumTrackTintColor="#000000"
           maximumTrackTintColor="#FFC300"
           onValueChange={handleDimLightChange}
@@ -86,10 +72,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  title: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 10,
+  },
   ledContainer: {
     height: '40%',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
+    position: 'relative',
     backgroundColor: '#222222',
   },
   led: {
@@ -103,6 +94,7 @@ const styles = StyleSheet.create({
   sliderContainer: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 10,
   },
   temperatureContainer: {
     flexDirection: 'row',
@@ -119,7 +111,6 @@ const styles = StyleSheet.create({
     height: 60,
     width: 60,
     borderRadius: 10,
-
     alignItems: 'center',
     justifyContent: 'center',
     borderColor: 'black',
@@ -130,11 +121,11 @@ const styles = StyleSheet.create({
   },
   lightBackground: {
     width: 300,
-    height: 200,
+    height: 220,
     position: 'absolute',
-    left: 0,
-    bottom: 0,
-    zIndex: 1,
+    left: -33,
+    bottom: -6,
+    zIndex: -1,
 
   },
 });
