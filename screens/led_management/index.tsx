@@ -5,13 +5,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import Animated, { useSharedValue } from 'react-native-reanimated';
 import Svg, { Defs, ClipPath, Polygon, RadialGradient, Stop, Circle } from 'react-native-svg';
-import office from '../../assets/office.jpg';
+
+
+const office = require('../../assets/office.jpg');
+
 const temperatures = {
   '4000K': '#F9F6EE',
   '5000K': '#FAF9F6',
   '6500K': '#FFFFFF',
 };
-
 
 export default function LedManagement() {
   const [dimLight, setDimLight] = useState(0);
@@ -30,51 +32,14 @@ export default function LedManagement() {
     <SafeAreaView style={styles.container}>
       <StatusBar style='dark' />
       <View style={styles.ledContainer}>
-        <ImageBackground source={office} style={{height: '100%', width: '100%'}}>
+        <ImageBackground source={office} imageStyle={{opacity: 0.05}} style={{height: '100%', width: '100%'}}>
 
 
           <Image
             style={styles.led}
             source={require('../../assets/horizontal-led-f.png')}
           />
-          <Animated.View style={styles.dimLightContainer}>
-            <Svg height="300" width="350" viewBox="10 40 120 110">
-              <Defs>
-                <RadialGradient id="grad" cx="35%" cy="50%" rx="50%" ry="50%" fx="70%" fy="50%" gradientUnits="userSpaceOnUse">
-                  <Stop
-                    offset='100%'
-                    stopColor={temperatures[temperature]}
-                    stopOpacity={dimLight > 80 ? dimLight / 100 : 0}
-                  />
-                  <Stop
-                    offset='80%'
-                    stopColor={temperatures[temperature]}
-                    stopOpacity={dimLight > 60 ? dimLight / 100 : 0}
-                  />
-                  <Stop
-                    offset='60%'
-                    stopColor={temperatures[temperature]}
-                    stopOpacity={dimLight > 40 ? dimLight / 100 : 0}
-                  />
-                  <Stop
-                    offset='40%'
-                    stopColor={temperatures[temperature]}
-                    stopOpacity={dimLight > 20 ? dimLight / 100 : 0}
-                  />
-                  <Stop
-                    offset='10%'
-                    stopColor={temperatures[temperature]}
-                    stopOpacity={dimLight > 0 ? dimLight / 100 : 0}
-                  />
-
-                </RadialGradient>
-                <ClipPath id="clip">
-                  <Polygon points="20,10 80,10 100,90 0,90" />
-                </ClipPath>
-              </Defs>
-              <Circle cx="50" cy="50" r="120" fill="url(#grad)" clipPath="url(#clip)" />
-            </Svg>
-          </Animated.View>
+          
         </ImageBackground>
       </View>
 
@@ -88,9 +53,7 @@ export default function LedManagement() {
           maximumTrackTintColor="#FFC300"
           onValueChange={handleDimLightChange}
           value={dimLight}
-        >
-        </Slider>
-
+        />
         <Text>Temperature</Text>
         <View style={styles.temperatureContainer}>
           <View style={[styles.temperatureCard, temperature === '4000K' ? styles.selectedTemperatureCard : null]}>
