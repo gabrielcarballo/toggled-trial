@@ -9,6 +9,7 @@ import Svg, { Defs, ClipPath, Polygon, RadialGradient, Stop, Circle } from 'reac
 
 const office = require('../../assets/office.jpg');
 const led = require('../../assets/horizontal-led-f.png');
+const light = require('../../assets/lighted-bg.png');
 
 const temperatures = {
   '4000K': '#F9F6EE',
@@ -33,12 +34,14 @@ export default function LedManagement() {
     <SafeAreaView style={styles.container}>
       <StatusBar style='dark' />
       <View style={styles.ledContainer}>
-        <ImageBackground source={office} imageStyle={{ opacity: dimLight / 100 }} style={{ height: '100%', width: '100%' }}>
+        <ImageBackground source={office} imageStyle={{ opacity: dimLight / 1000 }} style={{ height: '100%', width: '100%' }}>
           <Image
             style={styles.led}
             source={led}
           />
-          <View style={[styles.trapezium, {borderBottomColor: `rgba(255, 255, 255, ${dimLight / 100})`}]}></View>
+          
+          <Image source={light} style={[styles.lightBackground, { opacity: dimLight / 100 } ]} />
+         
 
 
         </ImageBackground>
@@ -125,17 +128,13 @@ const styles = StyleSheet.create({
   selectedTemperatureCard: {
     backgroundColor: '#40B8D9',
   },
-  trapezium: {
-  position: 'absolute',
-  left: 0,
-  right: 110,
-  bottom: 80,
-  height: 250, // Adjust this value as needed
-  borderLeftWidth: 20, // Adjust this value as needed
-  borderRightWidth: 20, // Adjust this value as needed
-  borderBottomWidth: 100, // Adjust this value as needed
-  borderLeftColor: 'transparent',
-  borderRightColor: 'transparent',
-  borderBottomColor: 'transparent',
-},
+  lightBackground: {
+    width: 300,
+    height: 200,
+    position: 'absolute',
+    left: 0,
+    bottom: 0,
+    zIndex: 1,
+
+  },
 });
