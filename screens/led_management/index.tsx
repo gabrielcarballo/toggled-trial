@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image, StyleSheet, Pressable } from 'react-native';
+import { View, Text, TextInput, Image, StyleSheet, Pressable, ImageBackground } from 'react-native';
 import Slider from '@react-native-community/slider'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import Animated, { useSharedValue } from 'react-native-reanimated';
 import Svg, { Defs, ClipPath, Polygon, RadialGradient, Stop, Circle } from 'react-native-svg';
-
+import office from '../../assets/office.jpg';
 const temperatures = {
   '4000K': '#F9F6EE',
   '5000K': '#FAF9F6',
@@ -30,48 +30,52 @@ export default function LedManagement() {
     <SafeAreaView style={styles.container}>
       <StatusBar style='dark' />
       <View style={styles.ledContainer}>
-        <Image
-          style={styles.led}
-          source={require('../../assets/horizontal-led-f.png')}
-        />
-        <Animated.View style={styles.dimLightContainer}>
-          <Svg height="300" width="350" viewBox="10 40 120 110">
-            <Defs>
-              <RadialGradient id="grad" cx="35%" cy="50%" rx="50%" ry="50%" fx="70%" fy="50%" gradientUnits="userSpaceOnUse">
-                <Stop
-                  offset='100%'
-                  stopColor={temperatures[temperature]}
-                  stopOpacity={dimLight > 80 ? dimLight / 100 : 0}
-                />
-                <Stop
-                  offset='80%'
-                  stopColor={temperatures[temperature]}
-                  stopOpacity={dimLight > 60 ? dimLight / 100 : 0}
-                />
-                <Stop
-                  offset='60%'
-                  stopColor={temperatures[temperature]}
-                  stopOpacity={dimLight > 40 ? dimLight / 100 : 0}
-                />
-                <Stop
-                  offset='40%'
-                  stopColor={temperatures[temperature]}
-                  stopOpacity={dimLight > 20 ? dimLight / 100 : 0}
-                />
-                <Stop
-                  offset='10%'
-                  stopColor={temperatures[temperature]}
-                  stopOpacity={dimLight > 0 ? dimLight / 100 : 0}
-                />
+        <ImageBackground source={office} style={{height: '100%', width: '100%'}}>
 
-              </RadialGradient>
-              <ClipPath id="clip">
-                <Polygon points="20,10 80,10 100,90 0,90" />
-              </ClipPath>
-            </Defs>
-            <Circle cx="50" cy="50" r="120" fill="url(#grad)" clipPath="url(#clip)" />
-          </Svg>
-        </Animated.View>
+
+          <Image
+            style={styles.led}
+            source={require('../../assets/horizontal-led-f.png')}
+          />
+          <Animated.View style={styles.dimLightContainer}>
+            <Svg height="300" width="350" viewBox="10 40 120 110">
+              <Defs>
+                <RadialGradient id="grad" cx="35%" cy="50%" rx="50%" ry="50%" fx="70%" fy="50%" gradientUnits="userSpaceOnUse">
+                  <Stop
+                    offset='100%'
+                    stopColor={temperatures[temperature]}
+                    stopOpacity={dimLight > 80 ? dimLight / 100 : 0}
+                  />
+                  <Stop
+                    offset='80%'
+                    stopColor={temperatures[temperature]}
+                    stopOpacity={dimLight > 60 ? dimLight / 100 : 0}
+                  />
+                  <Stop
+                    offset='60%'
+                    stopColor={temperatures[temperature]}
+                    stopOpacity={dimLight > 40 ? dimLight / 100 : 0}
+                  />
+                  <Stop
+                    offset='40%'
+                    stopColor={temperatures[temperature]}
+                    stopOpacity={dimLight > 20 ? dimLight / 100 : 0}
+                  />
+                  <Stop
+                    offset='10%'
+                    stopColor={temperatures[temperature]}
+                    stopOpacity={dimLight > 0 ? dimLight / 100 : 0}
+                  />
+
+                </RadialGradient>
+                <ClipPath id="clip">
+                  <Polygon points="20,10 80,10 100,90 0,90" />
+                </ClipPath>
+              </Defs>
+              <Circle cx="50" cy="50" r="120" fill="url(#grad)" clipPath="url(#clip)" />
+            </Svg>
+          </Animated.View>
+        </ImageBackground>
       </View>
 
       <View style={styles.sliderContainer}>
@@ -105,19 +109,6 @@ export default function LedManagement() {
             </Pressable>
           </View>
         </View>
-
-
-        {/* <Text>Intensity</Text>
-        <Slider
-          style={{ width: '80%', height: 40 }}
-          minimumValue={0}
-          maximumValue={255}
-          minimumTrackTintColor="#FFFFFF"
-          maximumTrackTintColor="#000000"
-          onValueChange={handleIntensityChange}
-          value={intensity}
-        >
-        </Slider> */}
       </View>
     </SafeAreaView>
   );
