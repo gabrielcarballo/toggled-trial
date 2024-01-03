@@ -11,6 +11,11 @@ const office = require('../../assets/office.jpg');
 const led = require('../../assets/horizontal-led-f.png');
 const light = require('../../assets/lighted-bg.png');
 
+const MAX_LIGHT_INTENSITY = 255;
+const TEMPERATURE_K4 = '4000';
+const TEMPERATURE_K5 = '5000';
+const TEMPERATURE_K65 = '6500';
+
 
 export default function LedManagement() {
   const [lightIntensity, setlightIntensity] = useState<number>(0);
@@ -32,9 +37,9 @@ export default function LedManagement() {
       <StatusBar style='dark' />
 
       <View style={styles.ledContainer}>
-        <ImageBackground source={office} imageStyle={{ opacity: lightIntensity / 2550 }} style={styles.background}>
+        <ImageBackground source={office} imageStyle={{ opacity: lightIntensity / (MAX_LIGHT_INTENSITY * 10) }} style={styles.background}>
           <Image style={styles.led} source={led} />
-          <Image source={light} style={[styles.lightBackground, { opacity: (lightIntensity / 255) - handleLightingTemperature(temperature) }]} />
+          <Image source={light} style={[styles.lightBackground, { opacity: (lightIntensity / MAX_LIGHT_INTENSITY) - handleLightingTemperature(temperature) }]} />
         </ImageBackground>
       </View>
 
@@ -42,14 +47,14 @@ export default function LedManagement() {
       <View style={styles.controlContainer}>
         <Text style={styles.textStyle}>Power and Dimming</Text>
         <View style={styles.powerControlContainer}>
-          <PowerControlCard label="ON" isActive={isLightOn} onPress={() => isLightOn ? null : updatelightIntensity(255)} />
+          <PowerControlCard label="ON" isActive={isLightOn} onPress={() => isLightOn ? null : updatelightIntensity(MAX_LIGHT_INTENSITY)} />
           <PowerControlCard label="OFF" isActive={!isLightOn} onPress={handleLightOff} />
         </View>
         <Text style={styles.textStyle}>Dim Light</Text>
         <Slider
           style={styles.sliderStyle}
           minimumValue={0}
-          maximumValue={255}
+          maximumValue={MAX_LIGHT_INTENSITY}
           minimumTrackTintColor="#3A7DA3"
           maximumTrackTintColor="#EBE7E7"
           onValueChange={updatelightIntensity}
@@ -60,9 +65,9 @@ export default function LedManagement() {
         />
         <Text style={styles.textStyle}>Temperature</Text>
         <View style={styles.temperatureContainer}>
-          <TemperatureCard name='4000' value={Temperature.K4} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
-          <TemperatureCard name='5000' value={Temperature.K5} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
-          <TemperatureCard name='6500' value={Temperature.K65} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
+          <TemperatureCard name={TEMPERATURE_K4} value={Temperature.K4} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
+          <TemperatureCard name={TEMPERATURE_K5} value={Temperature.K5} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
+          <TemperatureCard name={TEMPERATURE_K65} value={Temperature.K65} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
         </View>
 
       </View>
