@@ -18,13 +18,11 @@ export default function LedManagement() {
   const [isLightOn, setIsLightOn] = useState<boolean>(false);
 
   const updatelightIntensity = useCallback((value: number): void => {
-    console.log(lightIntensity);
     setlightIntensity(value);
     setIsLightOn(true);
   }, []);
 
   const handleLightOff = useCallback((): void => {
-    console.log(lightIntensity);
     setIsLightOn(false);
     setlightIntensity(0);
   }, [])
@@ -49,7 +47,7 @@ export default function LedManagement() {
         </View>
         <Text style={styles.textStyle}>Dim Light</Text>
         <Slider
-          style={{ width: '80%', height: 40, alignSelf: 'flex-start' }}
+          style={styles.sliderStyle}
           minimumValue={0}
           maximumValue={255}
           minimumTrackTintColor="#3A7DA3"
@@ -154,5 +152,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '50%',
     borderRadius: 0,
+  },
+  sliderStyle: {
+    width: '80%',
+    height: 40,
+    alignSelf: 'flex-start',
   }
 });
