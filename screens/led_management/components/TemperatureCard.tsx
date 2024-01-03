@@ -5,13 +5,13 @@ interface TemperatureCardProps {
   name: string;
   value: string;
   selectedTemperature: string;
-  onSelect: (value: string) => void;
+  onSelect: (value: Temperature) => void;
 }
 
 
 const TemperatureCard = ({ name, value, selectedTemperature, onSelect }: TemperatureCardProps) => {
   return (
-      <Pressable onPress={() => onSelect(value)}>
+      <Pressable onPress={() => onSelect(value as Temperature)}>
         <View style={[styles.temperatureCard, selectedTemperature === value ? styles.selectedCard : null]}>
           <Text style={selectedTemperature === value ? styles.selectedTitle : styles.temperatureTitle}>{name}K</Text>
         </View>

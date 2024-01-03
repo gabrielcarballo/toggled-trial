@@ -65,9 +65,9 @@ export default function LedManagement() {
         />
         <Text style={styles.textStyle}>Temperature</Text>
         <View style={styles.temperatureContainer}>
-          <TemperatureCard name={TEMPERATURE_K4} value={Temperature.K4} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
-          <TemperatureCard name={TEMPERATURE_K5} value={Temperature.K5} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
-          <TemperatureCard name={TEMPERATURE_K65} value={Temperature.K65} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
+          <TemperatureCard name={TEMPERATURE_K4} value={Temperature.K4} selectedTemperature={temperature} onSelect={setTemperature} />
+          <TemperatureCard name={TEMPERATURE_K5} value={Temperature.K5} selectedTemperature={temperature} onSelect={setTemperature} />
+          <TemperatureCard name={TEMPERATURE_K65} value={Temperature.K65} selectedTemperature={temperature} onSelect={setTemperature} />
         </View>
 
       </View>
