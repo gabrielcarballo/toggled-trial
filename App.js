@@ -1,7 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native';
-import HomeScreen from './screens/home';
+import HomeScreen from './screens/home/Home';
 import Routes from './routes';
+
+
 
 export default function App() {
   return (
