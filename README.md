@@ -1,6 +1,10 @@
 # Toggled iQ Playground 
 
-### This project is an LED Management System built with React Native and TypeScript. It allows users to control an LED light's power, temperature, and intensity.
+## This project is an MVP LED Management System built with React Native and TypeScript. It allows users to control an LED light's power, temperature, and intensity.
+
+## About
+
+The objective of the Toggled Playground project is to mitigate barriers for potential users who may hesitate to invest in Toggled products due to concerns about usability. The target audience includes contractors, electricians, and operations managers across diverse industries
 
 ## Technology
 The app was built using:
