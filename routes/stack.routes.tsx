@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import HomeScreen from '../screens/home';
-import LedManagement from '../screens/led_management';
+import HomeScreen from '../screens/home/Home';
+import LedManagement from '../screens/led_management/LedManagement';
 
 const Stack = createNativeStackNavigator();
 
