@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { handleLightingTemperature, Temperature } from '../../utils/handleLightingTemperature'
 import { Slider } from '@rneui/themed'
+import TemperatureCard from './components/TemperatureCard';
 
 
 const office = require('../../assets/office.jpg');
@@ -56,36 +57,23 @@ export default function LedManagement() {
           </Pressable>
         </View>
         <Text style={styles.textStyle}>Dim Light</Text>
-          <Slider
-            style={{ width: '80%', height: 40, alignSelf: 'flex-start' }}
-            minimumValue={0}
-            maximumValue={255}
-            minimumTrackTintColor="#3A7DA3"
-            maximumTrackTintColor="#EBE7E7"
-            onValueChange={updatelightIntensity}
-            value={lightIntensity}
-            thumbTintColor='#3A7DA3'
-            trackStyle={{ width: '100%', height: '50%', borderRadius: 0 }}
-            thumbStyle={{ width: '5%', height: '70%', borderRadius: 0, backgroundColor: 'white', borderColor: '#3A7DA3', borderWidth: 1 }}
-          />
+        <Slider
+          style={{ width: '80%', height: 40, alignSelf: 'flex-start' }}
+          minimumValue={0}
+          maximumValue={255}
+          minimumTrackTintColor="#3A7DA3"
+          maximumTrackTintColor="#EBE7E7"
+          onValueChange={updatelightIntensity}
+          value={lightIntensity}
+          thumbTintColor='#3A7DA3'
+          trackStyle={{ width: '100%', height: '50%', borderRadius: 0 }}
+          thumbStyle={{ width: '5%', height: '70%', borderRadius: 0, backgroundColor: 'white', borderColor: '#3A7DA3', borderWidth: 1 }}
+        />
         <Text style={styles.textStyle}>Temperature</Text>
-
         <View style={styles.temperatureContainer}>
-          <Pressable onPress={() => setTemperature(Temperature.K4)}>
-            <View style={[styles.temperatureCard, temperature === Temperature.K4 ? styles.selectedCard : null]}>
-              <Text style={temperature === Temperature.K4 ? styles.selectedTitle : styles.temperatureTitle}>4000K</Text>
-            </View>
-          </Pressable>
-          <Pressable onPress={() => setTemperature(Temperature.K5)}>
-            <View style={[styles.temperatureCard, temperature === Temperature.K5 ? styles.selectedCard : null]}>
-              <Text style={temperature === Temperature.K5 ? styles.selectedTitle : styles.temperatureTitle}>5000K</Text>
-            </View>
-          </Pressable>
-          <Pressable onPress={() => setTemperature(Temperature.K65)}>
-            <View style={[styles.temperatureCard, temperature === Temperature.K65 ? styles.selectedCard : null]}>
-              <Text style={temperature === Temperature.K65 ? styles.selectedTitle : styles.temperatureTitle}>6500K</Text>
-            </View>
-          </Pressable>
+          <TemperatureCard  name='4000' value={Temperature.K4} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
+          <TemperatureCard name='5000'value={Temperature.K5} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
+          <TemperatureCard name='6500'value={Temperature.K65} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
         </View>
 
       </View>
@@ -134,14 +122,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: '4%',
   },
-  temperatureCard: {
-    height: 40,
-    width: 85,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderColor: '#3A7DA3',
-    borderWidth: 1,
-  },
+  
   selectedCard: {
     backgroundColor: '#3A7DA3',
   },
