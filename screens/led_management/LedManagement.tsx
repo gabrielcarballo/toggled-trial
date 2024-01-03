@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   thumbStyle: {
     width: '5%',
     height: '70%',
-    borderRadius: 0,
+    borderRadius: 4,
     backgroundColor: 'white',
     borderColor: '#3A7DA3',
     borderWidth: 1
@@ -156,11 +156,12 @@ const styles = StyleSheet.create({
   trackStyle: {
     width: '100%',
     height: '50%',
-    borderRadius: 0,
+
   },
   sliderStyle: {
     width: '80%',
     height: 40,
     alignSelf: 'flex-start',
+    borderRadius: 4,
   }
 });

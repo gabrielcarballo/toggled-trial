@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: '#3A7DA3',
     borderWidth: 1,
+    borderRadius: 4,
   },
   selectedCard: {
     backgroundColor: '#3A7DA3',
