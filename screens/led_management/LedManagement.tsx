@@ -1,16 +1,15 @@
 import React, { useCallback, useState } from 'react';
-import { View, Text, Image, StyleSheet, Pressable, ImageBackground } from 'react-native';
+import { View, Text, Image, StyleSheet, ImageBackground } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { handleLightingTemperature, Temperature } from '../../utils/handleLightingTemperature'
 import { Slider } from '@rneui/themed'
 import TemperatureCard from './components/TemperatureCard';
-
+import PowerControlCard from './components/PowerControlCard';
 
 const office = require('../../assets/office.jpg');
 const led = require('../../assets/horizontal-led-f.png');
 const light = require('../../assets/lighted-bg.png');
-
 
 
 export default function LedManagement() {
@@ -44,17 +43,9 @@ export default function LedManagement() {
       <Text style={styles.title}>Toggled Lighting Control</Text>
       <View style={styles.controlContainer}>
         <Text style={styles.textStyle}>Power and Dimming</Text>
-        <View style={styles.powerControl}>
-          <Pressable onPress={() => isLightOn ? null : updatelightIntensity(255)}>
-            <View style={[styles.powerControlCard, isLightOn === true ? styles.selectedCard : null]}>
-              <Text style={isLightOn ? styles.selectedTitle : styles.temperatureTitle}>ON</Text>
-            </View>
-          </Pressable>
-          <Pressable onPress={() => handleLightOff()}>
-            <View style={[styles.powerControlCard, isLightOn === false ? styles.selectedCard : null]}>
-              <Text style={isLightOn === false ? styles.selectedTitle : styles.temperatureTitle}>OFF</Text>
-            </View>
-          </Pressable>
+        <View style={styles.powerControlContainer}>
+          <PowerControlCard label="ON" isActive={isLightOn} onPress={() => isLightOn ? null : updatelightIntensity(255)} />
+          <PowerControlCard label="OFF" isActive={!isLightOn} onPress={handleLightOff} />
         </View>
         <Text style={styles.textStyle}>Dim Light</Text>
         <Slider
@@ -66,14 +57,14 @@ export default function LedManagement() {
           onValueChange={updatelightIntensity}
           value={lightIntensity}
           thumbTintColor='#3A7DA3'
-          trackStyle={{ width: '100%', height: '50%', borderRadius: 0 }}
-          thumbStyle={{ width: '5%', height: '70%', borderRadius: 0, backgroundColor: 'white', borderColor: '#3A7DA3', borderWidth: 1 }}
+          trackStyle={styles.trackStyle}
+          thumbStyle={styles.thumbStyle}
         />
         <Text style={styles.textStyle}>Temperature</Text>
         <View style={styles.temperatureContainer}>
-          <TemperatureCard  name='4000' value={Temperature.K4} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
-          <TemperatureCard name='5000'value={Temperature.K5} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
-          <TemperatureCard name='6500'value={Temperature.K65} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
+          <TemperatureCard name='4000' value={Temperature.K4} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
+          <TemperatureCard name='5000' value={Temperature.K5} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
+          <TemperatureCard name='6500' value={Temperature.K65} selectedTemperature={temperature} onSelect={setTemperature as (value: Temperature) => void} />
         </View>
 
       </View>
@@ -122,16 +113,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: '4%',
   },
-  
-  selectedCard: {
-    backgroundColor: '#3A7DA3',
-  },
-  temperatureTitle: {
-    color: '#3A7DA3',
-  },
-  selectedTitle: {
-    color: '#FFFFFF',
-  },
   lightBackground: {
     width: 300,
     height: 220,
@@ -150,7 +131,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
 
   },
-  powerControl: {
+  powerControlContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     width: '80%',
@@ -161,12 +142,17 @@ const styles = StyleSheet.create({
     marginTop: '3%',
     marginBottom: '3%',
   },
-  powerControlCard: {
-    height: 40,
-    width: 85,
-    alignItems: 'center',
-    justifyContent: 'center',
+  thumbStyle: {
+    width: '5%',
+    height: '70%',
+    borderRadius: 0,
+    backgroundColor: 'white',
     borderColor: '#3A7DA3',
-    borderWidth: 1,
+    borderWidth: 1
   },
+  trackStyle: {
+    width: '100%',
+    height: '50%',
+    borderRadius: 0,
+  }
 });
