@@ -42,3 +42,30 @@ This project follows best practices for React Native and TypeScript development:
 - Add an element to redirect to a redirect to Toggled Store.
 - Add an element to redirect to Contact Us on Toggled website.
 
+## Installation Instructions
+
+Follow these steps to get the app running on your local machine:
+
+1. **Clone the repository**: First, you need to clone the repository to your local machine. You can do this with the following command:
+
+```bash
+// by SSH
+git clone git@github.com:gabrielcarballo/toggled-trial.git
+```
+```bash
+// by HTTPS
+git clone https://github.com/gabrielcarballo/toggled-trial.git
+```
+2. **Install the dependencies**: Navigate into the cloned repository directory and run the following command to install the necessary dependencies:
+
+```bash
+npm install
+```
+
+3. **Start the app**: Now, you can start the app with the following command:
+
+```bash
+npm start
+```
+
+This will start the app in development mode. Open the Expo app on your device and scan the QR code displayed in the terminal to view the app.
