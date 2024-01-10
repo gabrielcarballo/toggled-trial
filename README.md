@@ -74,4 +74,4 @@ This will start the app in development mode.
 
 ## App Preview
 
-![App Preview](assets/Toggled-iQ-Playground-gif.gif)
+<img src="assets/Toggled-iQ-Playground-gif.gif" alt="App Preview" height="500"/>
