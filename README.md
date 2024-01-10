@@ -68,4 +68,10 @@ npm install
 npm start
 ```
 
-This will start the app in development mode. Open the Expo app on your device and scan the QR code displayed in the terminal to view the app.
+This will start the app in development mode. 
+
+4. **View the app**: With Expo Go installed on your mobile device, you can view the app by scanning the QR code displayed in the terminal.
+
+## App Preview
+
+![App Preview](assets/Toggled-iQ-Playground-gif.gif)
