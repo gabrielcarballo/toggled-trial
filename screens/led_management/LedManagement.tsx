@@ -16,20 +16,31 @@ const TEMPERATURE_K4 = '4000';
 const TEMPERATURE_K5 = '5000';
 const TEMPERATURE_K65 = '6500';
 
+interface lightState {
+  isLightOn: boolean;
+  lightIntensity: number;
+  temperature: Temperature;
+}
 
 export default function LedManagement() {
-  const [lightIntensity, setlightIntensity] = useState<number>(0);
-  const [temperature, setTemperature] = useState<Temperature>(Temperature.K4);
-  const [isLightOn, setIsLightOn] = useState<boolean>(false);
+  const [lightState, setLightState] = useState<lightState>({
+    isLightOn: false,
+    lightIntensity: 0,
+    temperature: Temperature.K4,
+  });
 
+  const handleTemperature = useCallback((value: Temperature): void => {
+    setLightState((prev) => ({ ...prev, temperature: value }));
+  }, [])
+  
   const updatelightIntensity = useCallback((value: number): void => {
-    setlightIntensity(value);
-    setIsLightOn(true);
+    setLightState((prev) => ({ ...prev, lightIntensity: value }));
+    setLightState((prev) => ({ ...prev, isLightOn: true }));
   }, []);
 
   const handleLightOff = useCallback((): void => {
-    setIsLightOn(false);
-    setlightIntensity(0);
+    setLightState((prev) => ({ ...prev, isLightOn: false }));
+    setLightState((prev) => ({ ...prev, lightIntensity: 0 }));
   }, [])
 
   return (
@@ -37,9 +48,9 @@ export default function LedManagement() {
       <StatusBar style='dark' />
 
       <View style={styles.ledContainer}>
-        <ImageBackground source={office} imageStyle={{ opacity: lightIntensity / (MAX_LIGHT_INTENSITY * 10) }} style={styles.background}>
+        <ImageBackground source={office} imageStyle={{ opacity: lightState.lightIntensity / (MAX_LIGHT_INTENSITY * 10) }} style={styles.background}>
           <Image style={styles.led} source={led} />
-          <Image source={light} style={[styles.lightBackground, { opacity: (lightIntensity / MAX_LIGHT_INTENSITY) - handleLightingTemperature(temperature) }]} />
+          <Image source={light} style={[styles.lightBackground, { opacity: (lightState.lightIntensity / MAX_LIGHT_INTENSITY) - handleLightingTemperature(lightState.temperature) }]} />
         </ImageBackground>
       </View>
 
@@ -47,8 +58,8 @@ export default function LedManagement() {
       <View style={styles.controlContainer}>
         <Text style={styles.textStyle}>Power and Dimming</Text>
         <View style={styles.powerControlContainer}>
-          <PowerControlCard label="ON" isActive={isLightOn} onPress={() => isLightOn ? null : updatelightIntensity(MAX_LIGHT_INTENSITY)} />
-          <PowerControlCard label="OFF" isActive={!isLightOn} onPress={handleLightOff} />
+          <PowerControlCard label="ON" isActive={lightState.isLightOn} onPress={() => lightState.isLightOn ? null : updatelightIntensity(MAX_LIGHT_INTENSITY)} />
+          <PowerControlCard label="OFF" isActive={!lightState.isLightOn} onPress={handleLightOff} />
         </View>
         <Text style={styles.textStyle}>Dim Light</Text>
         <Slider
@@ -58,16 +69,16 @@ export default function LedManagement() {
           minimumTrackTintColor="#3A7DA3"
           maximumTrackTintColor="#EBE7E7"
           onValueChange={updatelightIntensity}
-          value={lightIntensity}
+          value={lightState.lightIntensity}
           thumbTintColor='#3A7DA3'
           trackStyle={styles.trackStyle}
           thumbStyle={styles.thumbStyle}
         />
         <Text style={styles.textStyle}>Temperature</Text>
         <View style={styles.temperatureContainer}>
-          <TemperatureCard name={TEMPERATURE_K4} value={Temperature.K4} selectedTemperature={temperature} onSelect={setTemperature} />
-          <TemperatureCard name={TEMPERATURE_K5} value={Temperature.K5} selectedTemperature={temperature} onSelect={setTemperature} />
-          <TemperatureCard name={TEMPERATURE_K65} value={Temperature.K65} selectedTemperature={temperature} onSelect={setTemperature} />
+          <TemperatureCard name={TEMPERATURE_K4} value={Temperature.K4} selectedTemperature={lightState.temperature} onSelect={handleTemperature} />
+          <TemperatureCard name={TEMPERATURE_K5} value={Temperature.K5} selectedTemperature={lightState.temperature} onSelect={handleTemperature} />
+          <TemperatureCard name={TEMPERATURE_K65} value={Temperature.K65} selectedTemperature={lightState.temperature} onSelect={handleTemperature} />
         </View>
 
       </View>
